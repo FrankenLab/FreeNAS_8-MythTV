@@ -1,0 +1,8 @@
+#!/bin/sh
+
+mythtv_path=/usr/pbi/mythtv-$(uname -m)
+tmpfile=$(mktemp /tmp/.XXXXXX)
+
+grep -v 'mythtv_' /etc/rc.conf > ${tmpfile}
+cat ${mythtv_path}/etc/rc.conf >> ${tmpfile}
+mv ${tmpfile} /etc/rc.conf

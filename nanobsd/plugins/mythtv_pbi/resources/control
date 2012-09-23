@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec /usr/pbi/mythtv-$(uname -m)/bin/python /usr/pbi/mythtv-$(uname -m)/control.py $*
