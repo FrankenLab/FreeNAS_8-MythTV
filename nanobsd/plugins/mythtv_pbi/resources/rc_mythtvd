@@ -1,45 +1,45 @@
 #!/bin/sh
 #
-# PROVIDE: jdownloader
+# PROVIDE: mythtv
 # REQUIRE: LOGIN 
 # KEYWORD: shutdown
 # $FreeBSD$
 #
 # Add the following lines to /etc/rc.conf to enable this service:
 #
-# jdownloader_enable:            Set to NO by default. Set it to YES to enable it.
+# mythtv_enable:            Set to NO by default. Set it to YES to enable it.
 #                            a path.
-# jdownloader_user:              The user account jdownloader daemon runs as
+# mythtv_user:              The user account mythtv daemon runs as
 #
 
 . /etc/rc.subr
 
-name="jdownloader"
+name="mythtv"
 rcvar=${name}_enable
 
-pidfile=/var/run/JDownloader/JDownloader.pid
-command=/usr/pbi/jdownloader-`uname -m`/sbin/jdownloader
+pidfile=/var/run/MythTV/MythTV.pid
+command=/usr/pbi/mythtv-`uname -m`/sbin/mythtv
 
 load_rc_config $name
 
-jdownloader_user=${jdownloader_user="root"}
-_dirs="/var/run/JDownloader /var/log/JDownloader"
-start_precmd="mkdir -p $_dirs; touch /var/run/JDownloader/JDownloader.pid; chown -R $jdownloader_user $_dirs; ldconfig -m /usr/pbi/jdownloader-`uname -m`/lib"
-#RUN_AS_USER="jdown"
+mythtv_user=${mythtv_user="root"}
+_dirs="/var/run/MythTV /var/log/MythTV"
+start_precmd="mkdir -p $_dirs; touch /var/run/MythTV/MythTV.pid; chown -R $mythtv_user $_dirs; ldconfig -m /usr/pbi/mythtv-`uname -m`/lib"
+#RUN_AS_USER="mythtv"
 
-command_args="$jdownloader_args"
+command_args="$mythtv_args"
 
-jdownloader_stop()
+mythtv_stop()
 {
         res=1
-        echo -n 'Stopping jdownloader.'
+        echo -n 'Stopping mythtv.'
         if [ -f "${pidfile}" ]
         then
                 kill -KILL $(cat "${pidfile}")
                 rm -f ${pidfile}
                 res=$?
         else
-                killall -KILL jdownloader
+                killall -KILL mythtv
                 res=$?
         fi
 
@@ -47,9 +47,9 @@ jdownloader_stop()
         return ${res}
 }
 
-stop_cmd='jdownloader_stop'
+stop_cmd='mythtv_stop'
 run_rc_command "$1"
 
 # Need to wait for Java to start before getting PID
-sleep 2
-pgrep -U root -f JDownloader.jar > /var/run/JDownloader/JDownloader.pid
+#sleep 2
+#pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
