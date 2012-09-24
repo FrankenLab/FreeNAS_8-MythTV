@@ -22,17 +22,17 @@ cp -a ${MYTHTV_HOME}/rc_mythtvd /usr/local/etc/rc.d/mythtvd
 chmod 755 /usr/local/etc/rc.d/mythtvd
 
 mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
-pw groupadd jdown
-pw useradd jdown -g jdown -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
-chown -R jdown:jdown ${MYTHTV_HOME}/etc/home/mythtv
+#pw groupadd jdown
+#pw useradd jdown -g jdown -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
+#chown -R jdown:jdown ${MYTHTV_HOME}/etc/home/mythtv
 
-mkdir -p ${MYTHTV_HOME}/downloads
-chown jdown:jdown ${MYTHTV_HOME}/downloads
-chmod 775 ${MYTHTV_HOME}/downloads
+#mkdir -p ${MYTHTV_HOME}/downloads
+#chown jdown:jdown ${MYTHTV_HOME}/downloads
+#chmod 775 ${MYTHTV_HOME}/downloads
 
-mkdir -p /var/run/JDownloader /var/log/JDownloader
-touch /var/run/JDownloader/JDownloader.pid /var/log/JDownloader/JDownloader.log
-chown -R jdown:jdown /var/run/JDownloader /var/log/JDownloader
+#mkdir -p /var/run/JDownloader /var/log/JDownloader
+#touch /var/run/JDownloader/JDownloader.pid /var/log/JDownloader/JDownloader.log
+#chown -R jdown:jdown /var/run/JDownloader /var/log/JDownloader
 
 ##########################
 # LINKS
