@@ -2,32 +2,32 @@
 #
 # $FreeBSD$
 
-LOGFILE="/var/log/JDownloader/JDownloader.log"
-JD_HOME="/usr/pbi/jdownloader-`uname -m`"
+LOGFILE="/var/log/MythTV/MythTV.log"
+JD_HOME="/usr/pbi/mythtv-`uname -m`"
 
 # Check if Xvfb is enabled in config file created by GUI
-XVFB_ENABLE=`grep Xvfb ${JD_HOME}/etc/jdownloader.conf | sed -e "s,Xvfb_Enable= ,,"`
+XVFB_ENABLE=`grep Xvfb ${JD_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
 echo $XVFB_ENABLE
 
 # Get X DISPLAY setting from config file created by GUI
-XDISPLAY=`grep "X11_Display= " ${JD_HOME}/etc/jdownloader.conf | sed -e "s,X11_Display= ,,"`
+XDISPLAY=`grep "X11_Display= " ${JD_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
 #echo $XDISPLAY
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
 
-if [ ! -f /var/run/JDownloader/JDownloader.pid ]; then
+if [ ! -f /var/run/MythTV/MythTV.pid ]; then
     echo "No PIDfile found"
 else
-    id=`cat /var/run/JDownloader/JDownloader.pid`
+    id=`cat /var/run/MythTV/MythTV.pid`
     #echo ${id}
     if [ ! -z ${id} ];then
         echo ${id}
         echo "Existing PIDfile =" ${id} >> $LOGFILE
         if ! ps -p ${id} >> $LOGFILE;then
-            echo "Another copy of JDownloader might be running already." >> $LOGFILE
+            echo "Another copy of MythTV might be running already." >> $LOGFILE
             echo "Killing existing process if its running and restarting" >> $LOGFILE
             kill -9 ${id}
-            rm -f /var/run/JDownloader/JDownloader.pid
+            rm -f /var/run/MythTV/MythTV.pid
             echo "Deleted stale PIDfile"
         fi
     fi
@@ -65,11 +65,11 @@ fi
 if [ $XVFB_ENABLE -ne 1 ]; then
     killall Xvfb x11vnc fluxbox
     export DISPLAY
-    echo "Starting JDownloader on DISPLAY:" >> $LOGFILE
+    echo "Starting MythTV on DISPLAY:" >> $LOGFILE
     echo $DISPLAY >> $LOGFILE
 fi
 
-exec ${JD_HOME}/bin/java -Xmx512m -jar ${JD_HOME}/share/java/JDownloader/JDownloader.jar > $LOGFILE 2>&1 &
+#exec ${JD_HOME}/bin/java -Xmx512m -jar ${JD_HOME}/share/java/MythTV/MythTV.jar > $LOGFILE 2>&1 &
 
 sleep 2
-pgrep -U root -f JDownloader.jar > /var/run/JDownloader/JDownloader.pid
+pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
