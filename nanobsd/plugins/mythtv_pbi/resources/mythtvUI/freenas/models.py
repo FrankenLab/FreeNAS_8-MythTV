@@ -9,3 +9,5 @@ class MythTV(models.Model):
     enable = models.BooleanField(default=False)
     x11_DISPLAY = models.CharField(max_length=500, default=':1', blank=True)
     xvfb_enable = models.BooleanField(default=True)
+    mythsetup_enable = models.BooleanField(default=True)
+    mythbackend_enable = models.BooleanField(default=False)

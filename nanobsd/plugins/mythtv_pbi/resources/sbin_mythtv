@@ -3,14 +3,14 @@
 # $FreeBSD$
 
 LOGFILE="/var/log/MythTV/MythTV.log"
-JD_HOME="/usr/pbi/mythtv-`uname -m`"
+MYTH_HOME="/usr/pbi/mythtv-`uname -m`"
 
 # Check if Xvfb is enabled in config file created by GUI
-XVFB_ENABLE=`grep Xvfb ${JD_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
+XVFB_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
 echo $XVFB_ENABLE
 
 # Get X DISPLAY setting from config file created by GUI
-XDISPLAY=`grep "X11_Display= " ${JD_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
+XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
 #echo $XDISPLAY
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
@@ -48,17 +48,17 @@ if [ $XVFB_ENABLE -eq 1 ]; then
     export DISPLAY=:1
 
     if [ -z `pgrep Xvfb` ]; then
-        exec ${JD_HOME}/bin/Xvfb :1 -screen 0 1024x768x16 &
+        exec ${MYTH_HOME}/bin/Xvfb :1 -screen 0 1024x768x16 &
     fi
 
     if [ -z `pgrep x11vnc` ]; then
-        exec ${JD_HOME}/bin/x11vnc -noshm -nevershared -forever -display :1 &
+        exec ${MYTH_HOME}/bin/x11vnc -noshm -nevershared -forever -display :1 &
     fi
 
     if [ -z `pgrep fluxbox` ]; then
         sleep 1
         export DISPLAY
-        exec ${JD_HOME}/bin/fluxbox -d :1 &
+        exec ${MYTH_HOME}/bin/fluxbox -d :1 &
     fi
 fi
 
@@ -69,7 +69,7 @@ if [ $XVFB_ENABLE -ne 1 ]; then
     echo $DISPLAY >> $LOGFILE
 fi
 
-#exec ${JD_HOME}/bin/java -Xmx512m -jar ${JD_HOME}/share/java/MythTV/MythTV.jar > $LOGFILE 2>&1 &
+exec ${MYTH_HOME}/bin/mythtv-setup > $LOGFILE 2>&1 &
 
-sleep 2
-pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
+#sleep 2
+#pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid

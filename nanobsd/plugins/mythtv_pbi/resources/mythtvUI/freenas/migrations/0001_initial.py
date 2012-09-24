@@ -14,6 +14,8 @@ class Migration(SchemaMigration):
             ('enable', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('x11_DISPLAY', self.gf('django.db.models.fields.CharField')(default=':1', max_length=500, blank=False)),
             ('xvfb_enable', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('mythsetup_enable', self.gf('django.db.models.fields.BooleanField')(default=True)),
+            ('mythbackend_enable', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('freenas', ['MythTV'])
 
@@ -35,6 +37,8 @@ class Migration(SchemaMigration):
         'freenas.mythtv': {
             'Meta': {'object_name': 'MythTV'},
             'xvfb_enable': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'mythsetup_enable': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'mythbackend_enable': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'enable': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'x11_DISPLAY': ('django.db.models.fields.CharField', [], {'default': "':1'", 'max_length': '500', 'blank': 'True'})

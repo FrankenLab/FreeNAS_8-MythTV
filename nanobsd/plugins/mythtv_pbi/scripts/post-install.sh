@@ -2,8 +2,24 @@
 
 MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 
-#echo libz.so.4 libz.so.5 > /etc/libmap.conf
-#echo libz.so.4 libz.so.5 > ${MYTHTV_HOME}/etc/libmap.conf
+# Add 2 checkboxes to GUI to select which app to start (mythtv-setup, or backend)
+# Add mountpoint(s)
+
+mv ${MYTHTV_HOME}/libGL.so ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/libGL.so.1 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/libQtDBus.so ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/libQtDBus.so.4 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/libQtDBus.so.4.8 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
+ldconfig -m ${MYTHTV_HOME}/lib
+
+mkdir ${MYTHTV_HOME}/_MythDatabase
+mysql -uroot -p < ${MYTHTV_HOME}/_MythDatabase/mc.sql
+
+mkdir -p ${MYTHTV_HOME}/_Recordings
+chmod 777 ${MYTHTV_HOME}/_Recordings
+
+mv ${MYTHTV_HOME}/sbin_mythtv ${MYTHTV_HOME}/sbin/
 
 ##########################
 # INSTALL FONTS FOR X11
@@ -17,36 +33,21 @@ MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 #rm ${MYTHTV_HOME}/fonts.tar
 
 # Copy template RC script over existing script
-cp -a ${MYTHTV_HOME}/rc_mythtvd ${MYTHTV_HOME}/etc/rc.d/mythtvd
-cp -a ${MYTHTV_HOME}/rc_mythtvd /usr/local/etc/rc.d/mythtvd
-chmod 755 /usr/local/etc/rc.d/mythtvd
+#cp -a ${MYTHTV_HOME}/rc_mythtvd ${MYTHTV_HOME}/etc/rc.d/mythtvd
+#cp -a ${MYTHTV_HOME}/rc_mythtvd /usr/local/etc/rc.d/mythtvd
+#chmod 755 /usr/local/etc/rc.d/mythtvd
 
 mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
+
 #pw groupadd jdown
 #pw useradd jdown -g jdown -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
 #chown -R jdown:jdown ${MYTHTV_HOME}/etc/home/mythtv
 
-#mkdir -p ${MYTHTV_HOME}/downloads
-#chown jdown:jdown ${MYTHTV_HOME}/downloads
-#chmod 775 ${MYTHTV_HOME}/downloads
-
-#mkdir -p /var/run/JDownloader /var/log/JDownloader
-#touch /var/run/JDownloader/JDownloader.pid /var/log/JDownloader/JDownloader.log
-#chown -R jdown:jdown /var/run/JDownloader /var/log/JDownloader
-
-##########################
-# LINKS
-##########################
-
-#ln -sf ${MYTHTV_HOME}/bin/unrar /usr/local/bin/unrar
-#ln -sf ${MYTHTV_HOME}/etc/rc.d/mythtvd /usr/local/etc/rc.d/mythtvd
+mkdir -p /var/run/MythTV /var/log/MythTV
+touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
+#chown -R jdown:jdown /var/run/MythTV /var/log/MythTV
 
 ldconfig -m ${MYTHTV_HOME}/lib
-
-#find /usr/pbi/${MYTHTV_HOME}/lib -name "libXrender.*" -exec ln -sf {} /usr/local/lib/ \;
-#find /usr/pbi/${MYTHTV_HOME}/lib -name "libmawt.*" -exec ln -sf {} /usr/local/lib/ \;
-#find /usr/pbi/${MYTHTV_HOME}/lib -name "libXtst.*" -exec ln -sf {} /usr/local/lib/ \;
-#find /usr/pbi/${MYTHTV_HOME}/lib -name "libXi.*" -exec ln -sf {} /usr/local/lib/ \;
 
 ##########################
 # CLEANUP
@@ -54,7 +55,7 @@ ldconfig -m ${MYTHTV_HOME}/lib
 
 #echo $JAIL_IP"	"`hostname` >> /etc/hosts
 
-echo 'mythtv_flags=""' > ${MYTHTV_HOME}/etc/rc.conf
-echo 'mythtv_flags=""' > /etc/rc.conf
+echo 'mythtv_flags=""' >> ${MYTHTV_HOME}/etc/rc.conf
+echo 'mythtv_flags=""' >> /etc/rc.conf
 
 ${MYTHTV_HOME}/bin/python ${MYTHTV_HOME}/mythtvUI/manage.py syncdb --migrate --noinput
