@@ -41,7 +41,7 @@ class MythTVForm(forms.ModelForm):
 
         try:
             os.makedirs("/var/cache/MythTV")
-            os.chown("/var/cache/MythTV", *pwd.getpwnam('jdown')[2:4])
+            os.chown("/var/cache/MythTV", *pwd.getpwnam('mythtv')[2:4])
         except Exception:
             pass
 
@@ -54,4 +54,4 @@ class MythTVForm(forms.ModelForm):
             f.write("db_params = %s\n" % ("/var/cache/MythTV", ))
             f.write("Xvfb_Enable= %d\n" % (obj.xvfb_enable, ))
             f.write("X11_Display= %s\n" % (obj.x11_DISPLAY, ))
-            f.write("runas = %s\n" % ("jdown", ))
+            f.write("runas = %s\n" % ("mythtv", ))
