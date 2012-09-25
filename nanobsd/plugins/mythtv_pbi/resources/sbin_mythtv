@@ -10,10 +10,14 @@ XVFB_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"
 echo $XVFB_ENABLE
 
 # Check if mythtv-setup is enabled in config file created by GUI
-Myth_Setup_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
+Myth_Setup_ENABLE=`grep MythTV-Setup ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
+echo $Myth_Setup_ENABLE
 
 # Check if mythtv-backend is enabled in config file created by GUI
-Myth_Backend_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
+Myth_Backend_ENABLE=`grep MythTV-Backend ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
+echo $Myth_Backend_ENABLE
+
+sleep 5
 
 # Get X DISPLAY setting from config file created by GUI
 XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
@@ -75,7 +79,18 @@ if [ $XVFB_ENABLE -ne 1 ]; then
     echo $DISPLAY >> $LOGFILE
 fi
 
-exec ${MYTH_HOME}/bin/mythtv-setup > $LOGFILE 2>&1 &
+# These 2 IF statements should be mutally exclusive
 
-#sleep 2
-#pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
+# Myth_Setup_ENABLE
+if [ $Myth_Setup_ENABLE -eq 1 ]; then
+    exec ${MYTH_HOME}/bin/mythtv-setup > $LOGFILE 2>&1 &
+    #sleep 2
+    #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
+fi
+
+# Myth_Backend_ENABLE
+if [ $Myth_Backend_ENABLE -eq 1 ]; then
+    exec ${MYTH_HOME}/bin/mythbackend > $LOGFILE 2>&1 &
+    #sleep 2
+    #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
+fi
