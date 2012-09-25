@@ -21,7 +21,7 @@ mysql -uroot -p < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 mkdir -p ${MYTHTV_HOME}/_Recordings
 chmod 777 ${MYTHTV_HOME}/_Recordings
 
-mv ${MYTHTV_HOME}/sbin_mythtv ${MYTHTV_HOME}/sbin/
+mv ${MYTHTV_HOME}/sbin_mythtv ${MYTHTV_HOME}/sbin/mythtv
 
 ##########################
 # INSTALL FONTS FOR X11

@@ -9,6 +9,12 @@ MYTH_HOME="/usr/pbi/mythtv-`uname -m`"
 XVFB_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
 echo $XVFB_ENABLE
 
+# Check if mythtv-setup is enabled in config file created by GUI
+Myth_Setup_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
+
+# Check if mythtv-backend is enabled in config file created by GUI
+Myth_Backend_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
+
 # Get X DISPLAY setting from config file created by GUI
 XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
 #echo $XDISPLAY
