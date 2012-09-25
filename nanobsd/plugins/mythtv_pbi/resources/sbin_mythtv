@@ -17,8 +17,6 @@ echo $Myth_Setup_ENABLE
 Myth_Backend_ENABLE=`grep MythTV-Backend ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
 echo $Myth_Backend_ENABLE
 
-sleep 5
-
 # Get X DISPLAY setting from config file created by GUI
 XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
 #echo $XDISPLAY
@@ -78,6 +76,9 @@ if [ $XVFB_ENABLE -ne 1 ]; then
     echo "Starting MythTV on DISPLAY:" >> $LOGFILE
     echo $DISPLAY >> $LOGFILE
 fi
+
+# Start the SQL database for MythTV
+/usr/pbi/mythtv-amd64/bin/mysql -uroot -usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
 
 # These 2 IF statements should be mutally exclusive
 
