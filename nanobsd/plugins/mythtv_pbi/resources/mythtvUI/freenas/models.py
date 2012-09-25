@@ -11,9 +11,9 @@ class MythTV(models.Model):
     xvfb_enable = models.BooleanField(default=True)
     mythsetup_enable = models.BooleanField(
 	default=True,
-        help_text=("Only check ONE: MythSetup or MythBackend")
+        help_text=("Run MythTV-Setup")
 	)
     mythbackend_enable = models.BooleanField(
 	default=False,
-        help_text=("Only check ONE: MythSetup or MythBackend")
+        help_text=("Run MythBackend (Only Check ONE!)")
 	)
