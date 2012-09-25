@@ -6,17 +6,20 @@ MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 # Add mountpoint(s) _Recordings
 
 # IF `uname -m` .eq. amd64
-mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/lib_x64/libGL.so.1 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libGL.so.1 ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4 ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8 ${MYTHTV_HOME}/lib/
+#mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
 
 ldconfig -m ${MYTHTV_HOME}/lib
 
 mkdir ${MYTHTV_HOME}/_MythDatabase
-mysql -uroot -p < ${MYTHTV_HOME}/_MythDatabase/mc.sql
+/usr/pbi/mythtv-amd64/bin/mysql_install_db --basedir=/usr/pbi/mythtv-amd64 --datadir=/usr/pbi/mythtv-amd64/_MythDatabase --force
+#${MYTHTV_HOME}/bin/mysql_update
+cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
+/usr/pbi/mythtv-amd64/bin/mysql -uroot < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
 mkdir -p ${MYTHTV_HOME}/_Recordings
 chmod 777 ${MYTHTV_HOME}/_Recordings
