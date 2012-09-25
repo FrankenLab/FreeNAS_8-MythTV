@@ -1,6 +1,7 @@
 #!/bin/sh
 
 MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
+MYTH_USER=mythtv
 
 # Add 2 checkboxes to GUI to select which app to start (mythtv-setup, or backend)
 # Add mountpoint(s) _Recordings
@@ -14,17 +15,21 @@ MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 #mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
 
 ldconfig -m ${MYTHTV_HOME}/lib
+ldconfig -m ${MYTHTV_HOME}/lib/mysql
+ldconfig -m ${MYTHTV_HOME}/lib/mysql/plugin
+ldconfig -m ${MYTHTV_HOME}/lib/qt4/plugins
 
-mkdir ${MYTHTV_HOME}/_MythDatabase
-/usr/pbi/mythtv-amd64/bin/mysql_install_db --basedir=/usr/pbi/mythtv-amd64 --datadir=/usr/pbi/mythtv-amd64/_MythDatabase --force
+mkdir -p ${MYTHTV_HOME}/_MythDatabase/mysql
+/usr/pbi/mythtv-`uname -m`/bin/mysql_install_db --basedir=/usr/pbi/mythtv-`uname -m` --datadir=/usr/pbi/mythtv-`uname -m`/_MythDatabase --force
 #${MYTHTV_HOME}/bin/mysql_update
 cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
-/usr/pbi/mythtv-amd64/bin/mysql -uroot < ${MYTHTV_HOME}/_MythDatabase/mc.sql
+/usr/pbi/mythtv-`uname -m`/bin/mysql -uroot -pmythtv< ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
 mkdir -p ${MYTHTV_HOME}/_Recordings
 chmod 777 ${MYTHTV_HOME}/_Recordings
 
 mv ${MYTHTV_HOME}/sbin_mythtv ${MYTHTV_HOME}/sbin/mythtv
+chmod 755 ${MYTHTV_HOME}/sbin/mythtv
 
 ##########################
 # INSTALL FONTS FOR X11
@@ -44,13 +49,15 @@ chmod 755 /usr/local/etc/rc.d/mythtvd
 
 mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
 
-#pw groupadd mythtv
-#pw useradd mythtv -g mythtv -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
-#chown -R mythtv:mythtv ${MYTHTV_HOME}/etc/home/mythtv
+pw groupadd ${MYTH_USER}
+pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -w none
+# Need to create home directory
+#pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
+#chown -R ${MYTH_USER}:${MYTH_USER} ${MYTHTV_HOME}/etc/home/mythtv
 
 mkdir -p /var/run/MythTV /var/log/MythTV
 touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
-#chown -R jdown:jdown /var/run/MythTV /var/log/MythTV
+#chown -R ${MYTH_USER}:${MYTH_USER} /var/run/MythTV /var/log/MythTV
 
 ldconfig -m ${MYTHTV_HOME}/lib
 
