@@ -5,12 +5,14 @@ MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 # Add 2 checkboxes to GUI to select which app to start (mythtv-setup, or backend)
 # Add mountpoint(s) _Recordings
 
-mv ${MYTHTV_HOME}/libGL.so ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/libGL.so.1 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/libQtDBus.so ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/libQtDBus.so.4 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/libQtDBus.so.4.8 ${MYTHTV_HOME}/lib/
-mv ${MYTHTV_HOME}/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
+# IF `uname -m` .eq. amd64
+mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/lib_x64/libGL.so.1 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8 ${MYTHTV_HOME}/lib/
+mv ${MYTHTV_HOME}/lib_x64/libQtDBus.so.4.8.2 ${MYTHTV_HOME}/lib/
+
 ldconfig -m ${MYTHTV_HOME}/lib
 
 mkdir ${MYTHTV_HOME}/_MythDatabase
