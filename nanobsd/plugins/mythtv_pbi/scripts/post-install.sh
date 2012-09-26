@@ -71,8 +71,8 @@ ln -sf ${MYTHTV_HOME}/etc/home/mythtv /root/.mythtv
 #pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
 #chown -R ${MYTH_USER}:${MYTH_USER} ${MYTHTV_HOME}/etc/home/mythtv
 
-mkdir -p /var/run/MythTV /var/log/MythTV
-touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
+#mkdir -p /var/run/MythTV /var/log/MythTV
+#touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
 #chown -R ${MYTH_USER}:${MYTH_USER} /var/run/MythTV /var/log/MythTV
 
 
