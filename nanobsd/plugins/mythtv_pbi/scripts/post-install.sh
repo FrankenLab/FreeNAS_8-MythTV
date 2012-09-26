@@ -19,6 +19,7 @@ mkdir -p ${MYTHTV_HOME}/_MythDatabase/mysql
 
 /usr/pbi/mythtv-`uname -m`/bin/mysql_install_db --basedir=/usr/pbi/mythtv-`uname -m` --datadir=/usr/pbi/mythtv-`uname -m`/_MythDatabase --force
 
+# Create Mythconverge from database template
 cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
 /usr/pbi/mythtv-`uname -m`/bin/mysql -umythtv -pmythtv < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
@@ -68,7 +69,6 @@ mkdir -p /var/run/MythTV /var/log/MythTV
 touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
 #chown -R ${MYTH_USER}:${MYTH_USER} /var/run/MythTV /var/log/MythTV
 
-ldconfig -m ${MYTHTV_HOME}/lib
 
 ##########################
 # CLEANUP
