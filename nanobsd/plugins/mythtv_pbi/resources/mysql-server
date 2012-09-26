@@ -1,6 +1,5 @@
 #!/bin/sh
 #
-# $FreeBSD: ports/databases/mysql55-server/files/mysql-server.in,v 1.1 2012/08/05 23:19:36 dougb Exp $
 #
 
 # PROVIDE: mysql
@@ -22,9 +21,6 @@
 #                       to mysqld_safe (default empty).
 #
 
-#pw groupadd jdown
-#pw useradd jdown -g jdown -G wheel -s /bin/sh -d ${JDOWNLOADER_HOME}/etc/home/jdownloader -w none
-
 . /etc/rc.subr
 
 name="mysql"
@@ -34,19 +30,19 @@ load_rc_config $name
 
 : ${mysql_enable="NO"}
 : ${mysql_limits="NO"}
-: ${mysql_dbdir="/usr/pbi/mythtv-`uname -m`/_MythDatabase/"}
+: ${mysql_dbdir="/usr/pbi/mythtv-`uname -m`/_MythDatabase"}
 
 mysql_user="root"
 #mysql_group="wheel"
 mysql_limits_args="-e -U ${mysql_user}"
 pidfile=${mysql_pidfile:-"${mysql_dbdir}/`/bin/hostname`.pid"}
 command="/usr/sbin/daemon"
-command_args="-c -f /usr/pbi/mythtv-amd64/bin/mysqld_safe --defaults-extra-file=${mysql_dbdir}/my.cnf --user=${mysql_user} --datadir=${mysql_dbdir} --pid-file=${pidfile} ${mysql_args}"
-procname="/usr/pbi/mythtv-amd64/libexec/mysqld"
+command_args="-c -f /usr/pbi/mythtv-`uname -m`/bin/mysqld_safe --defaults-extra-file=${mysql_dbdir}/my.cnf --user=${mysql_user} --datadir=${mysql_dbdir} --pid-file=${pidfile} ${mysql_args}"
+procname="/usr/pbi/mythtv-`uname -m`/libexec/mysqld"
 start_precmd="${name}_prestart"
 start_postcmd="${name}_poststart"
-mysql_install_db="/usr/pbi/mythtv-amd64/bin/mysql_install_db"
-mysql_install_db_args="--basedir=/usr/pbi/mythtv-amd64 --datadir=${mysql_dbdir} --force"
+mysql_install_db="/usr/pbi/mythtv-`uname -m`/bin/mysql_install_db"
+mysql_install_db_args="--basedir=/usr/pbi/mythtv-`uname -m` --datadir=${mysql_dbdir} --force"
 
 mysql_create_auth_tables()
 {
@@ -73,6 +69,7 @@ mysql_poststart()
                 timeout=$(( timeout - 1 ))
                 sleep 1
         done
+        /usr/pbi/mythtv-`uname -m`/sbin/mythtv
         return 0
 }
 

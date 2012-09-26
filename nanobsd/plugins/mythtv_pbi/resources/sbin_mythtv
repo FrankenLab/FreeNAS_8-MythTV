@@ -1,9 +1,12 @@
 #!/bin/sh
 #
-# $FreeBSD$
 
 LOGFILE="/var/log/MythTV/MythTV.log"
 MYTH_HOME="/usr/pbi/mythtv-`uname -m`"
+
+# PIDfile games, mysql like to create its pidfile  in ${MYTH_HOME}/_MythDatabase/hostname.pid
+# We're going to link that to /var/run/mysql.pid for the FreeNAS GUI script to find
+ln -sf ${MYTH_HOME}/_MythDatabase/`hostname`.pid /var/run/mysql.pid
 
 # Check if Xvfb is enabled in config file created by GUI
 XVFB_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
@@ -23,23 +26,23 @@ XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Disp
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
 
-if [ ! -f /var/run/MythTV/MythTV.pid ]; then
-    echo "No PIDfile found"
-else
-    id=`cat /var/run/MythTV/MythTV.pid`
-    #echo ${id}
-    if [ ! -z ${id} ];then
-        echo ${id}
-        echo "Existing PIDfile =" ${id} >> $LOGFILE
-        if ! ps -p ${id} >> $LOGFILE;then
-            echo "Another copy of MythTV might be running already." >> $LOGFILE
-            echo "Killing existing process if its running and restarting" >> $LOGFILE
-            kill -9 ${id}
-            rm -f /var/run/MythTV/MythTV.pid
-            echo "Deleted stale PIDfile"
-        fi
-    fi
-fi
+#if [ ! -f /var/run/MythTV/MythTV.pid ]; then
+#    echo "No PIDfile found"
+#else
+#    id=`cat /var/run/MythTV/MythTV.pid`
+#    #echo ${id}
+#    if [ ! -z ${id} ];then
+#        echo ${id}
+#        echo "Existing PIDfile =" ${id} >> $LOGFILE
+#        if ! ps -p ${id} >> $LOGFILE;then
+#            echo "Another copy of MythTV might be running already." >> $LOGFILE
+#            echo "Killing existing process if its running and restarting" >> $LOGFILE
+#            kill -9 ${id}
+#            rm -f /var/run/MythTV/MythTV.pid
+#            echo "Deleted stale PIDfile"
+#        fi
+#    fi
+#fi
 
 # EXAMPLE setting DISPLAY for bash and csh
 # export DISPLAY=:1
@@ -78,7 +81,7 @@ if [ $XVFB_ENABLE -ne 1 ]; then
 fi
 
 # Start the SQL database for MythTV
-/usr/pbi/mythtv-amd64/bin/mysql -uroot -usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
+#/usr/pbi/mythtv-amd64/bin/mysql -uroot -usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
 
 # These 2 IF statements should be mutally exclusive
 
@@ -91,7 +94,7 @@ fi
 
 # Myth_Backend_ENABLE
 if [ $Myth_Backend_ENABLE -eq 1 ]; then
-    exec ${MYTH_HOME}/bin/mythbackend > $LOGFILE 2>&1 &
+    exec ${MYTH_HOME}/bin/mythbackend &
     #sleep 2
     #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
 fi
