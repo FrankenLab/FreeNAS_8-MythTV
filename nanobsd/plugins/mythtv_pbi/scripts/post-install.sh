@@ -21,7 +21,8 @@ mkdir -p ${MYTHTV_HOME}/_MythDatabase/mysql
 
 # Create Mythconverge from database template
 cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
-/usr/pbi/mythtv-`uname -m`/bin/mysql -umythtv -pmythtv < ${MYTHTV_HOME}/_MythDatabase/mc.sql
+# Database needs to be running
+/usr/pbi/mythtv-`uname -m`/bin/mysql < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
 # Database needs to be running for next command
 # Probably should run from sbin/mythtv
@@ -43,12 +44,16 @@ chmod 755 /usr/local/etc/rc.d/mysql-server
 # INSTALL FONTS FOR X11
 ##########################
 
+mkdir -p ${MYTHTV_HOME}/lib/X11/fonts
+(cd ${MYTHTV_HOME}/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
+
+rm -rf ${MYTHTV_HOME}/fonts
+
 #mkdir -p /usr/local/lib/X11/fonts
 #(cd /usr/local/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
-#rm -rf ${MYTHTV_HOME}/fonts
-
 #(cd /usr/local/lib/X11/fonts ; tar xf ${MYTHTV_HOME}/fonts.tar)
 #rm ${MYTHTV_HOME}/fonts.tar
+
 #[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/misc/, removing from list!
 #[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/TTF/, removing from list!
 #[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/OTF, removing from list!

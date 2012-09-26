@@ -60,7 +60,7 @@ mysql_prestart()
         else
                 return 0
         fi
-	/sbin/ldconfig -m /usr/pbi/mythtv-`uname -m`/lib
+        /sbin/ldconfig -m /usr/pbi/mythtv-`uname -m`/lib
 }
 
 mysql_poststart()
@@ -70,9 +70,9 @@ mysql_poststart()
                 timeout=$(( timeout - 1 ))
                 sleep 1
         done
-#        if [! -d "${mysql_dbdir}/mythconverge/." ]; then
-#                /usr/pbi/mythtv-`uname -m`/bin/mysql -umythtv -pmythtv < ${mysql_dbdir}/mc.sql || return 1
-#        fi
+        if [ ! -d "${mysql_dbdir}/mythconverge/." ]; then
+                (cd ${mysql_dbdir}; /usr/pbi/mythtv-`uname -m`/bin/mysql < ${mysql_dbdir}/mc.sql) || return 1
+        fi
         /usr/pbi/mythtv-`uname -m`/sbin/mythtv
         return 0
 }
