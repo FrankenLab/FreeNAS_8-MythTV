@@ -3,7 +3,7 @@
 MYTHTV_HOME=/usr/pbi/mythtv-`uname -m`
 MYTH_USER=mythtv
 
-${MYTHTV_HOME}/bin/python ${MYTHTV_HOME}/mythtvUI/manage.py syncdb --migrate --noinput
+env -i ${MYTHTV_HOME}/bin/python ${MYTHTV_HOME}/mythtvUI/manage.py syncdb --migrate --noinput
 
 # IF `uname -m` .eq. amd64
 mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
