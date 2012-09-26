@@ -9,6 +9,7 @@ env -i ${MYTHTV_HOME}/bin/python ${MYTHTV_HOME}/mythtvUI/manage.py syncdb --migr
 mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
 mv ${MYTHTV_HOME}/lib_x64/libGL.so.1 ${MYTHTV_HOME}/lib/
 rm -rf ${MYTHTV_HOME}/lib_x64
+rm ${MYTHTV_HOME}/lib*.so*
 
 ldconfig -m ${MYTHTV_HOME}/lib
 ldconfig -m ${MYTHTV_HOME}/lib/mysql
@@ -21,8 +22,6 @@ mkdir -p ${MYTHTV_HOME}/_MythDatabase/mysql
 
 # Create Mythconverge from database template
 cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
-# Database needs to be running
-/usr/pbi/mythtv-`uname -m`/bin/mysql < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
 # Database needs to be running for next command
 # Probably should run from sbin/mythtv
