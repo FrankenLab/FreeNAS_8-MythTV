@@ -35,7 +35,7 @@ load_rc_config $name
 mysql_user="root"
 #mysql_group="wheel"
 mysql_limits_args="-e -U ${mysql_user}"
-pidfile=${mysql_pidfile:-"${mysql_dbdir}/mysql.pid"}
+pidfile=${mysql_pidfile:-"/var/run/mysql.pid"}
 command="/usr/sbin/daemon"
 command_args="-c -f /usr/pbi/mythtv-`uname -m`/bin/mysqld_safe --defaults-extra-file=${mysql_dbdir}/my.cnf --user=${mysql_user} --datadir=${mysql_dbdir} --pid-file=${pidfile} ${mysql_args}"
 procname="/usr/pbi/mythtv-`uname -m`/libexec/mysqld"
