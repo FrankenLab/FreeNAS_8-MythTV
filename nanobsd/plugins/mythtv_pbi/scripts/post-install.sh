@@ -43,8 +43,12 @@ chmod 755 /usr/local/etc/rc.d/mysql-server
 # INSTALL FONTS FOR X11
 ##########################
 
-mkdir -p ${MYTHTV_HOME}/lib/X11/fonts
-(cd ${MYTHTV_HOME}/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
+mkdir -p /usr/local/lib/X11/fonts
+ln -sf /usr/local/lib/X11/fonts ${MYTHTV_HOME}/lib/X11/fonts
+(cd /usr/local/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
+
+#mkdir -p ${MYTHTV_HOME}/lib/X11/fonts
+#(cd ${MYTHTV_HOME}/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
 
 rm -rf ${MYTHTV_HOME}/fonts
 
@@ -60,25 +64,16 @@ rm -rf ${MYTHTV_HOME}/fonts
 #[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/100dpi/, removing from list!
 #[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/75dpi/, removing from list!
 
-# Copy template RC script over existing script
-#cp -a ${MYTHTV_HOME}/rc_mythtvd ${MYTHTV_HOME}/etc/rc.d/mythtvd
-#cp -a ${MYTHTV_HOME}/rc_mythtvd /usr/local/etc/rc.d/mythtvd
-#chmod 755 /usr/local/etc/rc.d/mythtvd
-
-mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
 
 pw groupadd ${MYTH_USER}
 pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -w none -d ${MYTHTV_HOME}/etc/home/mythtv
 mv /root/.mythtv /root/.mythtv_OLD
 ln -sf ${MYTHTV_HOME}/etc/home/mythtv /root/.mythtv
+mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
+
 # Need to create home directory
 #pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
 #chown -R ${MYTH_USER}:${MYTH_USER} ${MYTHTV_HOME}/etc/home/mythtv
-
-#mkdir -p /var/run/MythTV /var/log/MythTV
-#touch /var/run/MythTV/MythTV.pid /var/log/MythTV/MythTV.log
-#chown -R ${MYTH_USER}:${MYTH_USER} /var/run/MythTV /var/log/MythTV
-
 
 ##########################
 # CLEANUP
