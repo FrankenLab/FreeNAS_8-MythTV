@@ -55,7 +55,7 @@ if [ $XVFB_ENABLE -eq 1 ]; then
     export DISPLAY=:1
 
     if [ -z `pgrep Xvfb` ]; then
-        exec ${MYTH_HOME}/bin/Xvfb :1 -screen 0 1024x768x16 &
+        exec ${MYTH_HOME}/bin/Xvfb :1 -screen 0 1280x1024x16 &
     fi
 
     if [ -z `pgrep x11vnc` ]; then
