@@ -12,3 +12,5 @@ client_max_body_size 250m;
 
 to 512m in versions of FreeNAS before 8.3-RC1 in order to upload/install the MythTV plugin
 See ticket https://support.freenas.org/ticket/1814
+
+Need to stop Xvfb/x11vnc/mythtv-setup or backend from mysql-server when stopping from GUI
