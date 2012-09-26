@@ -55,6 +55,8 @@ mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
 
 pw groupadd ${MYTH_USER}
 pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -w none -d ${MYTHTV_HOME}/etc/home/mythtv
+mv /root/.mythtv /root/.mythtv_OLD
+ln -sf ${MYTHTV_HOME}/etc/home/mythtv /root/.mythtv
 # Need to create home directory
 #pw useradd ${MYTH_USER} -g ${MYTH_USER} -G wheel -s /bin/sh -d ${MYTHTV_HOME}/etc/home/mythtv -w none
 #chown -R ${MYTH_USER}:${MYTH_USER} ${MYTHTV_HOME}/etc/home/mythtv
