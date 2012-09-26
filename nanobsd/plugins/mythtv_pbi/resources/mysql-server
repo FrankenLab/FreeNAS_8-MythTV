@@ -35,7 +35,7 @@ load_rc_config $name
 mysql_user="root"
 #mysql_group="wheel"
 mysql_limits_args="-e -U ${mysql_user}"
-pidfile=${mysql_pidfile:-"${mysql_dbdir}/`/bin/hostname`.pid"}
+pidfile=${mysql_pidfile:-"${mysql_dbdir}/mysql.pid"}
 command="/usr/sbin/daemon"
 command_args="-c -f /usr/pbi/mythtv-`uname -m`/bin/mysqld_safe --defaults-extra-file=${mysql_dbdir}/my.cnf --user=${mysql_user} --datadir=${mysql_dbdir} --pid-file=${pidfile} ${mysql_args}"
 procname="/usr/pbi/mythtv-`uname -m`/libexec/mysqld"
@@ -69,6 +69,9 @@ mysql_poststart()
                 timeout=$(( timeout - 1 ))
                 sleep 1
         done
+#        if [! -d "${mysql_dbdir}/mythconverge/." ]; then
+#                /usr/pbi/mythtv-`uname -m`/bin/mysql -umythtv -pmythtv < ${mysql_dbdir}/mc.sql || return 1
+#        fi
         /usr/pbi/mythtv-`uname -m`/sbin/mythtv
         return 0
 }

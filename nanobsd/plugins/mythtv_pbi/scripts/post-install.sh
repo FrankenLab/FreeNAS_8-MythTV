@@ -8,6 +8,7 @@ env -i ${MYTHTV_HOME}/bin/python ${MYTHTV_HOME}/mythtvUI/manage.py syncdb --migr
 # IF `uname -m` .eq. amd64
 mv ${MYTHTV_HOME}/lib_x64/libGL.so ${MYTHTV_HOME}/lib/
 mv ${MYTHTV_HOME}/lib_x64/libGL.so.1 ${MYTHTV_HOME}/lib/
+rm -rf ${MYTHTV_HOME}/lib_x64
 
 ldconfig -m ${MYTHTV_HOME}/lib
 ldconfig -m ${MYTHTV_HOME}/lib/mysql
@@ -19,7 +20,7 @@ mkdir -p ${MYTHTV_HOME}/_MythDatabase/mysql
 /usr/pbi/mythtv-`uname -m`/bin/mysql_install_db --basedir=/usr/pbi/mythtv-`uname -m` --datadir=/usr/pbi/mythtv-`uname -m`/_MythDatabase --force
 
 cp ${MYTHTV_HOME}/share/mythtv/database/mc.sql ${MYTHTV_HOME}/_MythDatabase/mc.sql
-/usr/pbi/mythtv-`uname -m`/bin/mysql -uroot < ${MYTHTV_HOME}/_MythDatabase/mc.sql
+/usr/pbi/mythtv-`uname -m`/bin/mysql -umythtv -pmythtv < ${MYTHTV_HOME}/_MythDatabase/mc.sql
 
 # Database needs to be running for next command
 # Probably should run from sbin/mythtv
@@ -33,7 +34,9 @@ mv ${MYTHTV_HOME}/sbin_mythtv ${MYTHTV_HOME}/sbin/mythtv
 chmod 755 ${MYTHTV_HOME}/sbin/mythtv
 
 mv ${MYTHTV_HOME}/mysql-server ${MYTHTV_HOME}/etc/rc.d/
+cp -a ${MYTHTV_HOME}/etc/rc.d/mysql-server /usr/local/etc/rc.d/
 chmod 755 ${MYTHTV_HOME}/etc/rc.d/mysql-server
+chmod 755 /usr/local/etc/rc.d/mysql-server
 
 ##########################
 # INSTALL FONTS FOR X11
