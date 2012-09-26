@@ -60,6 +60,7 @@ mysql_prestart()
         else
                 return 0
         fi
+	/sbin/ldconfig -m /usr/pbi/mythtv-`uname -m`/lib
 }
 
 mysql_poststart()
