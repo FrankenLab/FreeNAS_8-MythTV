@@ -49,6 +49,12 @@ chmod 755 /usr/local/etc/rc.d/mysql-server
 
 #(cd /usr/local/lib/X11/fonts ; tar xf ${MYTHTV_HOME}/fonts.tar)
 #rm ${MYTHTV_HOME}/fonts.tar
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/misc/, removing from list!
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/TTF/, removing from list!
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/OTF, removing from list!
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/Type1/, removing from list!
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/100dpi/, removing from list!
+#[dix] Could not init font path element /usr/pbi/mythtv-amd64/lib/X11/fonts/75dpi/, removing from list!
 
 # Copy template RC script over existing script
 #cp -a ${MYTHTV_HOME}/rc_mythtvd ${MYTHTV_HOME}/etc/rc.d/mythtvd
