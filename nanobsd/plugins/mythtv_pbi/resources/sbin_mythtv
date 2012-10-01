@@ -90,21 +90,15 @@ if [ $XVFB_ENABLE -ne 1 ]; then
     echo $DISPLAY >> $LOGFILE
 fi
 
-# Start the SQL database for MythTV
-#/usr/pbi/mythtv-amd64/bin/mysql /usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
-
 # These 2 IF statements should be mutally exclusive
 
 # Myth_Setup_ENABLE
 if [ $Myth_Setup_ENABLE -eq 1 ]; then
+    export HOME=/usr/pbi/mythtv-`uname -m`/etc/home/mythtv
     exec ${MYTH_HOME}/bin/mythtv-setup &
-    #sleep 2
-    #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
 fi
 
 # Myth_Backend_ENABLE
 if [ $Myth_Backend_ENABLE -eq 1 ]; then
     exec ${MYTH_HOME}/bin/mythbackend &
-    #sleep 2
-    #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
 fi
