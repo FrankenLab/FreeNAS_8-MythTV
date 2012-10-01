@@ -41,6 +41,7 @@ command_args="-c -f /usr/pbi/mythtv-`uname -m`/bin/mysqld_safe --defaults-extra-
 procname="/usr/pbi/mythtv-`uname -m`/libexec/mysqld"
 start_precmd="${name}_prestart"
 start_postcmd="${name}_poststart"
+stop_postcmd="${name}_poststop"
 mysql_install_db="/usr/pbi/mythtv-`uname -m`/bin/mysql_install_db"
 mysql_install_db_args="--basedir=/usr/pbi/mythtv-`uname -m` --datadir=${mysql_dbdir} --force"
 
@@ -75,6 +76,13 @@ mysql_poststart()
         fi
         /usr/pbi/mythtv-`uname -m`/sbin/mythtv
         return 0
+}
+
+mysql_poststop()
+{
+# Check if we started Xvfb, x11vnc, fluxbox and stop them if not be used by another plugin?
+# Make sure we started them also
+        echo "Cleaning up child processes"
 }
 
 run_rc_command "$1"
