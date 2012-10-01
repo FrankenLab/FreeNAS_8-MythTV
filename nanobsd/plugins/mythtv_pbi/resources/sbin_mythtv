@@ -67,7 +67,7 @@ if [ $XVFB_ENABLE -eq 1 ]; then
 # If Xvfb is not already running, then start it.
 
     if [ -z `pgrep Xvfb` ]; then
-        exec ${MYTH_HOME}/bin/Xvfb ${DISPLAY} -screen 0 1024x768x16 &
+        exec ${MYTH_HOME}/bin/Xvfb ${DISPLAY} -screen 0 1280x1024x16 &
     fi
 
 # If x11vnc is not already running, then start it.
