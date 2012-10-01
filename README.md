@@ -17,3 +17,5 @@ Need to stop Xvfb/x11vnc/mythtv-setup or backend from mysql-server when stopping
 Need to make sure it was "our" plugin that started it, else leave it running
 
 Need to check for existing Xvfb display, possibly from other plugin and use that, or close ours when done.
+
+Should change _poststop to PREstop so apps that are using database can close gracefully
