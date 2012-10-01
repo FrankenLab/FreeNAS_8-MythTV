@@ -14,8 +14,9 @@ to 512m in versions of FreeNAS before 8.3-RC1 in order to upload/install the Myt
 See ticket https://support.freenas.org/ticket/1814
 
 Need to stop Xvfb/x11vnc/mythtv-setup or backend from mysql-server when stopping from GUI
+
 Need to make sure it was "our" plugin that started it, else leave it running (look at path/pgrep -l)
 
 Need to check for existing Xvfb display, possibly from other plugin and use that, or close ours when done.
 
-Need to fix fluxbox, won't start, might be font related (fc-cache -f / /usr/local/etc/fonts/fonts.conf)
+Note: fc-cache fc-list
