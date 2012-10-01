@@ -8,6 +8,10 @@ MYTH_HOME="/usr/pbi/mythtv-`uname -m`"
 XVFB_ENABLE=`grep Xvfb ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,Xvfb_Enable= ,,"`
 echo $XVFB_ENABLE
 
+# Need to check if Xvfb is running from another plugin and use that display
+RUNNING_DISPLAY_ID=""
+RUNNING_DISPLAY_ID=`pgrep -l -f Xvfb | sed -e "s,^[0-9].* *Xvfb ,," -e "s,-screen .*,,"`
+
 # Check if mythtv-setup is enabled in config file created by GUI
 Myth_Setup_ENABLE=`grep MythTV-Setup ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
 echo $Myth_Setup_ENABLE
@@ -54,9 +58,19 @@ if [ $XVFB_ENABLE -eq 1 ]; then
 
     export DISPLAY=:1
 
-    if [ -z `pgrep Xvfb` ]; then
-        exec ${MYTH_HOME}/bin/Xvfb :1 -screen 0 1280x1024x16 &
+    if [ -n "$RUNNING_DISPLAY_ID" ]
+        echo "Existing Xvfb Display, using that." ${RUNNING_DISPLAY_ID}
+        DISPLAY=${RUNNING_DISPLAY_ID}
+        export DISPLAY
     fi
+
+# If Xvfb is not already running, then start it.
+
+    if [ -z `pgrep Xvfb` ]; then
+        exec ${MYTH_HOME}/bin/Xvfb ${DISPLAY} -screen 0 1024x768x16 &
+    fi
+
+# If x11vnc is not already running, then start it.
 
     if [ -z `pgrep x11vnc` ]; then
         exec ${MYTH_HOME}/bin/x11vnc -noshm -nevershared -forever -display :1 &
@@ -64,7 +78,6 @@ if [ $XVFB_ENABLE -eq 1 ]; then
 
     if [ -z `pgrep fluxbox` ]; then
         sleep 1
-        export DISPLAY
         exec ${MYTH_HOME}/bin/fluxbox -d :1 &
     fi
 fi
@@ -77,13 +90,13 @@ if [ $XVFB_ENABLE -ne 1 ]; then
 fi
 
 # Start the SQL database for MythTV
-#/usr/pbi/mythtv-amd64/bin/mysql -uroot -usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
+#/usr/pbi/mythtv-amd64/bin/mysql /usr/pbi/mythtv-amd64/_MythDatabase/mc.sql
 
 # These 2 IF statements should be mutally exclusive
 
 # Myth_Setup_ENABLE
 if [ $Myth_Setup_ENABLE -eq 1 ]; then
-    exec ${MYTH_HOME}/bin/mythtv-setup > $LOGFILE 2>&1 &
+    exec ${MYTH_HOME}/bin/mythtv-setup &
     #sleep 2
     #pgrep -U root -f MythTV.jar > /var/run/MythTV/MythTV.pid
 fi
