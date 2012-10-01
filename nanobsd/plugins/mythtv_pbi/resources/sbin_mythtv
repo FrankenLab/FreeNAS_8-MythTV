@@ -58,7 +58,7 @@ if [ $XVFB_ENABLE -eq 1 ]; then
 
     export DISPLAY=:1
 
-    if [ -n "$RUNNING_DISPLAY_ID" ]
+    if [ -n "$RUNNING_DISPLAY_ID" ]; then
         echo "Existing Xvfb Display, using that." ${RUNNING_DISPLAY_ID}
         DISPLAY=${RUNNING_DISPLAY_ID}
         export DISPLAY
