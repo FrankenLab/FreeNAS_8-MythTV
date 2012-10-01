@@ -44,8 +44,12 @@ chmod 755 /usr/local/etc/rc.d/mysql-server
 ##########################
 
 mkdir -p /usr/local/lib/X11/fonts
-ln -sf /usr/local/lib/X11/fonts ${MYTHTV_HOME}/lib/X11/fonts
+#ln -sf /usr/local/lib/X11/fonts ${MYTHTV_HOME}/lib/X11/fonts
 (cd /usr/local/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)
+
+mkdir -p /usr/local/etc/fonts
+cp -a ${MYTHTV_HOME}/fonts.conf /usr/local/etc/fonts/fonts.conf
+${MYTHTV_HOME}/bin/fc-cache -f
 
 #mkdir -p ${MYTHTV_HOME}/lib/X11/fonts
 #(cd ${MYTHTV_HOME}/lib/X11/fonts ; cp -a ${MYTHTV_HOME}/fonts/* .)

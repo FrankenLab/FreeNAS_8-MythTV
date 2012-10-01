@@ -26,6 +26,8 @@ XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Disp
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
 
+#/usr/pbi/mythtv-`uname -m`/bin/fc-cache -f
+
 #if [ ! -f /var/run/MythTV/MythTV.pid ]; then
 #    echo "No PIDfile found"
 #else
