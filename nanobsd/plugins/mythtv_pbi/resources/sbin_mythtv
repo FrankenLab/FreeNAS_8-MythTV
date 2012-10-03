@@ -12,21 +12,28 @@ echo $XVFB_ENABLE
 RUNNING_DISPLAY_ID=""
 RUNNING_DISPLAY_ID=`pgrep -l -f Xvfb | sed -e "s,^[0-9].* *Xvfb ,," -e "s,-screen .*,,"`
 
-# Check if mythtv-setup is enabled in config file created by GUI
-Myth_Setup_ENABLE=`grep MythTV-Setup ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
-echo $Myth_Setup_ENABLE
+# Retreive which MythTV service user wants started from etc/mythtv.conf
+# 1 = mythtv-setup 2 = mythtvbackend 3 = mythttvfrontend
 
-# Check if mythtv-backend is enabled in config file created by GUI
-Myth_Backend_ENABLE=`grep MythTV-Backend ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
-echo $Myth_Backend_ENABLE
+Myth_Service=`grep "MythService= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythService= ,,"`
+echo "Myth_Service = " ${Myth_Service}
+
+
+#
+ # Check if mythtv-setup is enabled in config file created by GUI
+ #Myth_Setup_ENABLE=`grep MythTV-Setup ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Setup_Enable= ,,"`
+ #echo $Myth_Setup_ENABLE
+
+ # Check if mythtv-backend is enabled in config file created by GUI
+ #Myth_Backend_ENABLE=`grep MythTV-Backend ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,MythTV-Backend_Enable= ,,"`
+ #echo $Myth_Backend_ENABLE
+#
 
 # Get X DISPLAY setting from config file created by GUI
 XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Display= ,,"`
 #echo $XDISPLAY
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
-
-#/usr/pbi/mythtv-`uname -m`/bin/fc-cache -f
 
 #if [ ! -f /var/run/MythTV/MythTV.pid ]; then
 #    echo "No PIDfile found"
@@ -79,7 +86,7 @@ if [ $XVFB_ENABLE -eq 1 ]; then
     fi
 
     if [ -z `pgrep fluxbox` ]; then
-	# Need to make sure Xvfb has started before starting fluxbox
+        # Need to make sure Xvfb has started before starting fluxbox
         sleep 1
         exec ${MYTH_HOME}/bin/fluxbox -d :1 &
     fi
@@ -92,15 +99,19 @@ if [ $XVFB_ENABLE -ne 1 ]; then
     echo $DISPLAY >> $LOGFILE
 fi
 
-# These 2 IF statements should be mutally exclusive
-
-# Myth_Setup_ENABLE
-if [ $Myth_Setup_ENABLE -eq 1 ]; then
+# Mythtv-setup
+if [ $Myth_Service -eq 1 ]; then
     export HOME=/usr/pbi/mythtv-`uname -m`/etc/home/mythtv
     exec ${MYTH_HOME}/bin/mythtv-setup &
 fi
 
-# Myth_Backend_ENABLE
-if [ $Myth_Backend_ENABLE -eq 1 ]; then
+# MythBackend
+if [ $Myth_Service -eq 2 ]; then
     exec ${MYTH_HOME}/bin/mythbackend &
 fi
+
+# MythFrontend (NOT ENABLED YET, need both front & back enabled for this)
+#if [ $Myth_Service -eq 3 ]; then
+#    exec ${MYTH_HOME}/bin/mythbackend &
+#    exec ${MYTH_HOME}/bin/mythfrontend &
+#fi
