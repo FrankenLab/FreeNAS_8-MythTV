@@ -85,5 +85,5 @@ mkdir -p ${MYTHTV_HOME}/etc/home/mythtv/.fluxbox
 
 #echo $JAIL_IP"	"`hostname` >> /etc/hosts
 
-echo 'mythtv_flags=""' >> ${MYTHTV_HOME}/etc/rc.conf
-echo 'mythtv_flags=""' >> /etc/rc.conf
+echo 'mysql-server_flags=""' >> ${MYTHTV_HOME}/etc/rc.conf
+echo 'mysql-server_flags=""' >> /etc/rc.conf
