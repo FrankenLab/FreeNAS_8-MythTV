@@ -14,8 +14,6 @@ class Migration(SchemaMigration):
             ('enable', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('x11_DISPLAY', self.gf('django.db.models.fields.CharField')(default=':1', max_length=500, blank=False)),
             ('xvfb_enable', self.gf('django.db.models.fields.BooleanField')(default=True)),
-#            ('mythsetup_enable', self.gf('django.db.models.fields.BooleanField')(default=True)),
-#            ('mythbackend_enable', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('mythservices_list', self.gf('django.db.models.fields.CharField')(default='', max_length=12)),
         ))
         db.send_create_signal('freenas', ['MythTV'])

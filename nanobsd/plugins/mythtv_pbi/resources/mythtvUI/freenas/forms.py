@@ -53,8 +53,6 @@ class MythTVForm(forms.ModelForm):
             f.write("db_type = %s\n" % ("sqlite3", ))
             f.write("db_params = %s\n" % ("/var/cache/MythTV", ))
             f.write("Xvfb_Enable= %d\n" % (obj.xvfb_enable, ))
-            #f.write("MythTV-Setup_Enable= %d\n" % (obj.mythsetup_enable, ))
-            #f.write("MythTV-Backend_Enable= %d\n" % (obj.mythbackend_enable, ))
             f.write("MythService= %s\n" % (obj.mythservices_list, ))
             f.write("X11_Display= %s\n" % (obj.x11_DISPLAY, ))
             f.write("runas = %s\n" % ("mythtv", ))
