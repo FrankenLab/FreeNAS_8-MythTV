@@ -35,24 +35,6 @@ XDISPLAY=`grep "X11_Display= " ${MYTH_HOME}/etc/mythtv.conf | sed -e "s,X11_Disp
 DISPLAY=${XDISPLAY}
 echo $DISPLAY
 
-#if [ ! -f /var/run/MythTV/MythTV.pid ]; then
-#    echo "No PIDfile found"
-#else
-#    id=`cat /var/run/MythTV/MythTV.pid`
-#    #echo ${id}
-#    if [ ! -z ${id} ];then
-#        echo ${id}
-#        echo "Existing PIDfile =" ${id} >> $LOGFILE
-#        if ! ps -p ${id} >> $LOGFILE;then
-#            echo "Another copy of MythTV might be running already." >> $LOGFILE
-#            echo "Killing existing process if its running and restarting" >> $LOGFILE
-#            kill -9 ${id}
-#            rm -f /var/run/MythTV/MythTV.pid
-#            echo "Deleted stale PIDfile"
-#        fi
-#    fi
-#fi
-
 # EXAMPLE setting DISPLAY for bash and csh
 # export DISPLAY=:1
 # setenv DISPLAY :1
@@ -105,13 +87,33 @@ if [ $Myth_Service -eq 1 ]; then
     exec ${MYTH_HOME}/bin/mythtv-setup &
 fi
 
-# MythBackend
-if [ $Myth_Service -eq 2 ]; then
-    exec ${MYTH_HOME}/bin/mythbackend &
-fi
+# MythBackend - Need to Fix above, don't need Xvfb, x11vnc, or fluxbox running for backend.
+# Added test in mysql-server to start MythBackend and only branch to sbin/mythtv for other services needing X11
+
+#if [ $Myth_Service -eq 2 ]; then
+#    ${MYTH_HOME}/etc/rc.d/mythbackend onestart
+#    #exec ${MYTH_HOME}/bin/mythbackend &
+#fi
 
 # MythFrontend (NOT ENABLED YET, need both front & back enabled for this)
-#if [ $Myth_Service -eq 3 ]; then
-#    exec ${MYTH_HOME}/bin/mythbackend &
-#    exec ${MYTH_HOME}/bin/mythfrontend &
-#fi
+
+if [ $Myth_Service -eq 3 ]; then
+
+# Check if backend is running before starting it here
+    if [ -z `pgrep mythbackend` ]; then
+        ${MYTH_HOME}/etc/rc.d/mythbackend onestart
+    fi
+
+    exec ${MYTH_HOME}/bin/mythfrontend &
+fi
+
+# MythWelcome (NOT ENABLED YET, need both front & back enabled for this)
+
+if [ $Myth_Service -eq 4 ]; then
+
+# Check if backend is running before starting it here
+    if [ -z `pgrep mythbackend` ]; then
+        ${MYTH_HOME}/etc/rc.d/mythbackend onestart
+    fi
+    exec ${MYTH_HOME}/bin/mythwelcome &
+fi
