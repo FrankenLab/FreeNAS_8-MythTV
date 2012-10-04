@@ -6,7 +6,7 @@ class MythTV(models.Model):
     Django model describing every tunable setting for mythtv
     """
 
-    MYTH_SERVICES = ( ('1','MythSetup'), ('2','MythBackend'), ('3', 'MythFrontend') ('4','MythWelcome'))
+    MYTH_SERVICES = ( ('1','MythSetup'), ('2','MythBackend'), ('3', 'MythFrontend'), ('4','MythWelcome'))
 
     enable = models.BooleanField(default=False)
     x11_DISPLAY = models.CharField(max_length=500, default=':1', blank=True)
