@@ -33,7 +33,7 @@ load_rc_config $name
 : ${mysql_dbdir="/usr/pbi/mythtv-`uname -m`/_MythDatabase"}
 
 mysql_user="root"
-#mysql_group="wheel"
+mythtv_home="/usr/pbi/mythtv-`uname -m`/"
 mysql_limits_args="-e -U ${mysql_user}"
 pidfile=${mysql_pidfile:-"/var/run/mysql.pid"}
 command="/usr/sbin/daemon"
@@ -41,7 +41,7 @@ command_args="-c -f /usr/pbi/mythtv-`uname -m`/bin/mysqld_safe --defaults-extra-
 procname="/usr/pbi/mythtv-`uname -m`/libexec/mysqld"
 start_precmd="${name}_prestart"
 start_postcmd="${name}_poststart"
-#stop_precmd="${name}_prestop"
+stop_precmd="${name}_prestop"
 mysql_install_db="/usr/pbi/mythtv-`uname -m`/bin/mysql_install_db"
 mysql_install_db_args="--basedir=/usr/pbi/mythtv-`uname -m` --datadir=${mysql_dbdir} --force"
 
@@ -74,20 +74,55 @@ mysql_poststart()
         if [ ! -d "${mysql_dbdir}/mythconverge/." ]; then
                 (cd ${mysql_dbdir}; /usr/pbi/mythtv-`uname -m`/bin/mysql < ${mysql_dbdir}/mc.sql) || return 1
         fi
-	/usr/pbi/mythtv-`uname -m`/bin/mysql_upgrade
-        /usr/pbi/mythtv-`uname -m`/sbin/mythtv
+        /usr/pbi/mythtv-`uname -m`/bin/mysql_upgrade
+
+# Figure out which Myth Service to start, Mythbackend only needs mysql, not Xvfb, x11vnc, or fluxbox
+
+        Myth_Service=`grep "MythService= " ${mythtv_home}/etc/mythtv.conf | sed -e "s,MythService= ,,"`
+        echo "Myth_Service = " ${Myth_Service}
+        if [ $Myth_Service -eq 2 ]; then
+            ${mythtv_home}/etc/rc.d/mythbackend onestart
+        else
+            /usr/pbi/mythtv-`uname -m`/sbin/mythtv
+        fi
+
         return 0
 }
 
-#mysql_prestop()
-#{
+mysql_prestop()
+{
 ## Check if we started Xvfb, x11vnc, fluxbox and stop them if not be used by another plugin?
 ## Make sure we started them also
-#        echo "Cleaning up child processes"
-#	pkill mythtv-setup
-#	pkill mythbackend
-#	#pkill Xvfb
-#	#pkill x11vnc
-#}
+        echo "Cleaning up child processes"
+
+        if [ ! -z `pgrep mythbackend` ]; then      
+            ${mythtv_home}/etc/rc.d/mythbackend onestop
+        fi
+
+        if [ ! -z `pgrep mythtv-setup` ]; then      
+            pkill mythtv-setup
+        fi
+
+        if [ ! -z `pgrep mythwelcome` ]; then      
+            pkill mythwelcome
+        fi
+
+# Need to make sure we only kill X stuff started by Myth
+# Have to come back and do that later
+
+        if [ ! -z `pgrep Xvfb` ]; then      
+            pkill Xvfb
+        fi
+ 
+        if [ ! -z `pgrep x11vnc` ]; then
+            pkill x11vnc
+        fi
+ 
+        if [ -z `pgrep fluxbox` ]; then
+            pkill fluxbox
+        fi
+
+        return 0
+}
 
 run_rc_command "$1"
