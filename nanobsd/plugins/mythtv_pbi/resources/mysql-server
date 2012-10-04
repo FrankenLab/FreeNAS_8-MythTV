@@ -107,20 +107,9 @@ mysql_prestop()
             pkill mythwelcome
         fi
 
-# Need to make sure we only kill X stuff started by Myth
-# Have to come back and do that later
+# Need to make sure we only kill X stuff started by Myth, use pgrep to find only pids started by Myth
 
-        if [ ! -z `pgrep Xvfb` ]; then      
-            pkill Xvfb
-        fi
- 
-        if [ ! -z `pgrep x11vnc` ]; then
-            pkill x11vnc
-        fi
- 
-        if [ -z `pgrep fluxbox` ]; then
-            pkill fluxbox
-        fi
+            kill -9 `pgrep -f mythtv-amd64/bin/fluxbox` `pgrep -f mythtv-amd64/bin/x11vnc` `pgrep -f mythtv-amd64/bin/Xvfb`
 
         return 0
 }
