@@ -6,7 +6,7 @@
 mythtv_pbi_path=/usr/pbi/mythtv-$(uname -m)/
 
 find ${mythtv_pbi_path}/lib -iname "*.a" -delete
-rm -rf ${mythtv_pbi_path}/include
+#rm -rf ${mythtv_pbi_path}/include
 rm -rf ${mythtv_pbi_path}/share/doc
 rm -rf ${mythtv_pbi_path}/share/emacs
 rm -rf ${mythtv_pbi_path}/share/examples
