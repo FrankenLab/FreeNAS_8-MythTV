@@ -18,7 +18,7 @@ mythtv_etc_path = os.path.join(mythtv_pbi_path, "etc")
 mythtv_mnt_path = os.path.join(mythtv_pbi_path, "mnt")
 mythtv_fcgi_pidfile = "/var/run/fcgi_mythtv.pid"
 mythtv_fcgi_wwwdir = os.path.join(mythtv_pbi_path, "www")
-mythtv_control = "/usr/local/etc/rc.d/mythtvd"
+mythtv_control = "/usr/local/etc/rc.d/mysql-server"
 
 
 def mythtv_fcgi_start(args):
