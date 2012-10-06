@@ -303,6 +303,7 @@ def treemenu(request):
         'name': 'MythTV',
         'append_to': 'services.PluginsJail',
         'icon': reverse("treemenu_icon"),
+        'url': reverse("popup_backgnd"),
         'type': 'pluginsfcgi',
         'url': reverse('mythtv_edit'),
         'kwargs': {'plugin_name': 'mythtv'},
@@ -345,3 +346,9 @@ def treemenu_icon(request):
         icon = f.read()
 
     return HttpResponse(icon, content_type='image/png')
+
+def popup_backgnd(request):
+    with open(utils.mythtv_backgnd, 'rb') as f:
+        backgnd = f.read()
+
+    return HttpResponse(backgnd, content_type='image/png')

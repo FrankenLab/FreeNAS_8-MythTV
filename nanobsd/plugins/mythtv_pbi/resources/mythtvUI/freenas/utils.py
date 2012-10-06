@@ -10,6 +10,7 @@ mythtv_fcgi_wwwdir = os.path.join(mythtv_pbi_path, "www")
 mythtv_control = "/usr/local/etc/rc.d/mysql-server"
 mythtv_config = os.path.join(mythtv_etc_path, "mythtv.conf")
 mythtv_icon = os.path.join(mythtv_pbi_path, "default.png")
+mythtv_backgnd = os.path.join(mythtv_pbi_path, "mythbkgnd.png")
 mythtv_oauth_file = os.path.join(mythtv_pbi_path, ".oauth")
 
 
