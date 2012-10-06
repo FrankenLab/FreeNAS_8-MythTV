@@ -13,5 +13,5 @@ class MythTV(models.Model):
     xvfb_enable = models.BooleanField(default=True)
     mythservices_list = models.CharField(max_length=12,
 	choices=MYTH_SERVICES,
-	help_text=("Must select MythSetup the first time!")
+	help_text=("<span style=\"color: yellow;\"><b>Select MythSetup the first time!</b></span>")
 	)
