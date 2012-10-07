@@ -1,4 +1,4 @@
-FreeNAS_8-JDownloader
+FreeNAS_8-MythTV
 =====================
 
 Need to make sure and set the following variable ON in /usr/ports/multimedia/mythtv/Makefile
