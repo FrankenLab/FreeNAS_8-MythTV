@@ -13,10 +13,8 @@ client_max_body_size 250m;
 to 512m in versions of FreeNAS before 8.3-RC1 in order to upload/install the MythTV plugin
 See ticket https://support.freenas.org/ticket/1814
 
-Need to stop Xvfb/x11vnc/mythtv-setup or backend from mysql-server when stopping from GUI
-
-Need to make sure it was "our" plugin that started it, else leave it running (look at path/pgrep -l)
-
 Need to check for existing Xvfb display, possibly from other plugin and use that, or close ours when done.
+
+Need to create separate pluging for Xvfb/x11vnc/Fluxbox
 
 Note: fc-cache fc-list
