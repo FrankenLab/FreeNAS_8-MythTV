@@ -15,6 +15,6 @@ See ticket https://support.freenas.org/ticket/1814
 
 Need to check for existing Xvfb display, possibly from other plugin and use that, or close ours when done.
 
-Need to create separate pluging for Xvfb/x11vnc/Fluxbox
+Need to create separate plugin for Xvfb/x11vnc/Fluxbox
 
 Note: fc-cache fc-list
